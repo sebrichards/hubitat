@@ -156,9 +156,17 @@ def loop() {
 			break
 
 		case "RUNNING_ON_TERMINATING":
+
+			info("Turning switch off")
+			outputs.off()
+
+			// NB don't break, continue into next case
+
 		case "RUNNING_OFF_TERMINATING":
+
 			info("Terminated strobe")
 			setState("OFF")
+
 			break
 
 		default:
