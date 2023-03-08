@@ -77,6 +77,7 @@ def handleTriggerOn(evt) {
 		case "OFF":
 			info("Starting strobe")
 			setState("RUNNING_OFF")
+			runIn(60, escapeHatch)
 			loop()
 			break
 
@@ -164,6 +165,8 @@ def loop() {
 
 		case "RUNNING_OFF_TERMINATING":
 
+			unschedule()
+
 			info("Terminated strobe")
 			setState("OFF")
 
@@ -173,6 +176,16 @@ def loop() {
 			debug("Unhandled state: ${current}")
 			break;
 	}
+}
+
+def escapeHatch() {
+
+	unschedule()
+
+	log.error("ESCAPE HATCH — potential deadlock / trigger bug. Forcefully terminating strobe exectuion!")
+
+	outputs.off()
+	setState("OFF")
 }
 
 // -------------------------------- Helpers --------------------------------
